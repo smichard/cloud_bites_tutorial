@@ -13,6 +13,7 @@ As a code editor, this tutorial uses [Visual Studio Code](https://code.visualstu
 
 After the three components - Vagrant, Virtualbox, Visual Studio Code - have been installed, the GitHub repository can be cloned and the VM can be started:
 ```
+git config --global core.autocrlf false
 git clone
 cd cloud_bites_tutorial
 vagrant up
