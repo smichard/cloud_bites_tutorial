@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: demo-1
+  name: dpl-demo-1
+  namespace: default
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: demo-1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: demo-1
+    spec:
+      containers:
+      - image: gcr.io/neat-responder-349115/demo-app:sydney
+        imagePullPolicy: Always
+        name: demo-container
+        ports:
+        - containerPort: 80
+      dnsPolicy: ClusterFirst
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: srv-demo-1
+  namespace: default
+  labels:
+    app: demo-1
+spec:
+  ports:
+  - name: 80-80
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: demo-1
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ing-demo-1
+  annotations:
+    ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: srv-demo-1
+            port:
+              number: 80
