@@ -152,9 +152,8 @@ kubectl rollout history deployment dpl-demo-1 --revision=2
 <h3 id="5-deploy-a-remote-kubernetes-cluster-using-google-cloud--part-1"><strong>5. Deploy a remote Kubernetes cluster using Google Cloud – part 1</strong></h3>
 <p>In the following section, a Kubernetes cluster is deployed in a public cloud. For this purpose, <a href="https://cloud.google.com/">Google Cloud</a> is used in this tutorial, for the sake of simplicity it is assumed that a Google Cloud account already exists.<br>
 Important: in the following parts of the tutorial, costs are generated at the public cloud provider used. To minimize costs, it is therefore important to limit the runtime of the clusters and to prevent possible idle time.</p>
-<p>First obtain access to your Google Cloud account: CHECK</p>
+<p>First obtain access to your Google Cloud account:</p>
 <pre><code><code><div>gcloud init --console-only
-gcloud auth login
 </div></code></code></pre>
 <p>The following command creates a new Google Cloud project. A random project name is generated. Lastly, the newly created project is specified in the active configuration.</p>
 <pre><code><code><div>PROJECT_ID=&quot;gcp-$(($(date +%s%d)/1000000))$(($RANDOM%20))&quot; &amp;&amp; echo $PROJECT_ID
@@ -195,11 +194,11 @@ gcloud beta container --project ${PROJECT_ID} clusters create &quot;my-gke-clust
 <hr>
 <h3 id="7-deploy-a-remote-kubernetes-cluster-leveraging-terraform"><strong>7. Deploy a remote Kubernetes cluster leveraging Terraform</strong></h3>
 <p>In this section a Kubernetes cluster is created on Google Cloud leveraging <a href="https://www.terraform.io">Terraform</a>. Terraform is an infrastructure as code tool that allows one to build infrastructure on various platforms safely and efficiently in a declarative way.<br>
-First the Google Cloud environment has to be prepared by enabling a couple of API's: CHECK</p>
+First the Google Cloud environment has to be prepared by enabling a couple of API's:</p>
+<pre><code><code><div>gcloud services enable compute.googleapis.com container.googleapis.com
+</div></code></code></pre>
 <p>The next command authorizes the Google Cloud SDK to access Google Cloud using your user account credentials. Finally, this step adds your account to the Application Default Credentials. This will allow Terraform to access these credentials to provision resources on Google Cloud:</p>
-<pre><code><code><div>gcloud services enable compute.googleapis.com iam.googleapis.com container.googleapis.com cloudresourcemanager.googleapis.com anthos.googleapis.com cloudtrace.googleapis.com meshca.googleapis.com meshtelemetry.googleapis.com meshconfig.googleapis.com iamcredentials.googleapis.com gkeconnect.googleapis.com gkehub.googleapis.com monitoring.googleapis.com logging.googleapis.com
-
-gcloud auth application-default login
+<pre><code><code><div>gcloud auth application-default login
 </div></code></code></pre>
 <p>The following command initializes a working directory containing Terraform configuration files:</p>
 <pre><code><code><div>cd 02_terraform_deployment
