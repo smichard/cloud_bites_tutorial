@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app: demo-1
-  name: dpl-demo-1
+  name: deployment-name
   namespace: default
+  labels:
+    app: deployment-label
 spec:
+strategy:
+  rollingUpdate:
+    maxSurge: 1
+    maxUnavailable: 1
+  type: RollingUpdate
   replicas: 3
   selector:
     matchLabels:
-      app: demo-1
-  strategy:
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 1
-    type: RollingUpdate
+      app: pod-label
   template:
     metadata:
       labels:
-        app: demo-1
+        app: pod-label
     spec:
       containers:
       - name: demo-container

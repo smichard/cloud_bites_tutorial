@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: ReplicaSet
 metadata:
-  name: frontend
+  name: replicaset-name
+  namespace: default
   labels:
-    app: guestbook
-    tier: frontend
+    app: replicaset-label
 spec:
   replicas: 3
   selector:
     matchLabels:
-      tier: frontend
+      app: pod-label
   template:
     metadata:
       labels:
-        tier: frontend
+        app: pod-label
     spec:
       containers:
-      - name: php-redis
-        image: gcr.io/google_samples/gb-frontend:v3
+      - name: demo-container
+        image: gcr.io/neat-responder-349115/demo-app:sydney

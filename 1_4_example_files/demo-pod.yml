@@ -1,7 +1,10 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: nginx
+  name: pod-name
+  namespace: default
+  labels:
+    app: pod-label
 spec:
   containers:
   - name: demo-container
