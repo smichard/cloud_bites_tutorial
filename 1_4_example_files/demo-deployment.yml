@@ -6,11 +6,11 @@ metadata:
   labels:
     app: deployment-label
 spec:
-strategy:
-  rollingUpdate:
-    maxSurge: 1
-    maxUnavailable: 1
-  type: RollingUpdate
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
   replicas: 3
   selector:
     matchLabels:
