@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: srv-demo-1
+  namespace: default
+  labels:
+    app: demo-1
+spec:
+  ports:
+  - name: 80-80
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: demo-1
+  type: ClusterIP

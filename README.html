@@ -56,7 +56,8 @@ For simplicity make sure not to be behind a corporate firewall. Comments, additi
 <a href="https://www.virtualbox.org/">Virtualbox</a> is recommended as the virtualization software for this tutorial.
 As a code editor, this tutorial uses <a href="https://code.visualstudio.com/">Visual Studio Code</a>.</p>
 <p>After the three components - Vagrant, Virtualbox, Visual Studio Code - have been installed, the GitHub repository can be cloned and the VM can be started:</p>
-<pre><code><code><div>git clone
+<pre><code><code><div>git config --global core.autocrlf false
+git clone
 cd cloud_bites_tutorial
 vagrant up
 </div></code></code></pre>
@@ -70,7 +71,7 @@ vagrant up
 <h3 id="2-build-and-run-docker-container-locally"><strong>2. Build and run Docker container locally</strong></h3>
 <p>In this section, a container with the demo application is created first. This container is started locally and can be reached via the web browser of the host PC.</p>
 <p>Switch to the directory:</p>
-<pre><code><code><div>cd cloud_bites_tutorial/01_app_sources
+<pre><code><code><div>cd cloud_bites_tutorial/1_2_app_sources
 </div></code></code></pre>
 <p>View the container images available in the VM:</p>
 <pre><code><code><div>docker images
@@ -108,8 +109,8 @@ docker push &lt;dockerhub_username&gt;/&lt;image_name&gt;
 <pre><code><code><div>k3d cluster list
 kubectl get nodes
 </div></code></code></pre>
-<p>With the following command, the demo application is deployed to the local Kubernetes cluster that has just been created. This step creates a deployment with multiple containers, a service, and an ingress. The declarative configuration can be found in the <code>02_local_deployment/deployment.yml</code> file:</p>
-<pre><code><code><div>kubectl apply -f 02_local_deployment/deployment.yml
+<p>With the following command, the demo application is deployed to the local Kubernetes cluster that has just been created. This step creates a deployment with multiple containers, a service, and an ingress. The declarative configuration can be found in the <code>1_3_local_deployment/deployment.yml</code> file:</p>
+<pre><code><code><div>kubectl apply -f 1_3_local_deployment/deployment.yml
 </div></code></code></pre>
 <p>The following command displays the deployment, the replica set, the pods, and the service:</p>
 <pre><code><code><div>kubectl get deployments,replicasets,pods,services
@@ -130,13 +131,13 @@ kubectl get pods
 <pre><code><code><div>kubectl scale deployment dpl-demo-1 --replicas=6
 kubectl get deployments,replicasets,pods
 </div></code></code></pre>
-<p>Now it's time to change the deployment. To do this, the <code>02_local_deployment/deployment.yml</code> file must be modified. For example, in line 24, the container image can be changed from <code>demo-app:sydney</code> to <code>demo-app:london</code>. The adjusted deployment is rolled out again with the following command:</p>
-<pre><code><code><div>kubectl apply -f 02_local_deployment/deployment.yml
+<p>Now it's time to change the deployment. To do this, the <code>1_3_local_deployment/deployment.yml</code> file must be modified. For example, in line 24, the container image can be changed from <code>demo-app:sydney</code> to <code>demo-app:london</code>. The adjusted deployment is rolled out again with the following command:</p>
+<pre><code><code><div>kubectl apply -f 1_3_local_deployment/deployment.yml
 kubectl get deployments,replicasets,pods
 </div></code></code></pre>
 <p>The second command displayed the deployment, the replica sets, and the pods for the default namespace. By rolling out the changed deployment, a new replica set was created in which the number of pods is scaled up to the required number of pods. For the existing replica set, the number of pods is scaled to zero.
-The deployment is changed a second time and rolled out again. To do this, the container image is changed from <code>demo-app:london</code> to <code>demo-app:newyork</code> in line 24 of the <code>02_local_deployment/deployment.yml</code> file. The adjusted deployment is rolled out again with the following command:</p>
-<pre><code><code><div>kubectl apply -f 02_local_deployment/deployment.yml
+The deployment is changed a second time and rolled out again. To do this, the container image is changed from <code>demo-app:london</code> to <code>demo-app:newyork</code> in line 24 of the <code>1_3_local_deployment/deployment.yml</code> file. The adjusted deployment is rolled out again with the following command:</p>
+<pre><code><code><div>kubectl apply -f 1_3_local_deployment/deployment.yml
 kubectl get deployments,replicasets,pods
 </div></code></code></pre>
 <p>Keep in mind: the website of the demo application is always available via the host PC's web browser via <em>localhost:8080</em>.<br>
@@ -169,7 +170,7 @@ gcloud beta container --project ${PROJECT_ID} clusters create &quot;my-gke-clust
 <pre><code><code><div>gcloud container clusters get-credentials my-gke-cluster --zone europe-west3-a --project ${PROJECT_ID}
 </div></code></code></pre>
 <p>Now the demo application can be deployed on the newly created cluster:</p>
-<pre><code><code><div>kubectl apply -f 02_cloud_deployment/deployment.yml
+<pre><code><code><div>kubectl apply -f 1_5_cloud_deployment/deployment.yml
 </div></code></code></pre>
 <p>A load balancer is created as a service in the previous step. After a certain waiting time, a public IP address is displayed. The website of the demo application can then be reached via a web browser:</p>
 <pre><code><code><div>kubectl get services
@@ -185,7 +186,7 @@ gcloud beta container --project ${PROJECT_ID} clusters create &quot;my-gke-clust
 <pre><code><code><div>gcloud container clusters get-credentials my-gke-cluster-2 --zone europe-west3-a --project ${PROJECT_ID}
 </div></code></code></pre>
 <p>Now the demo application can be deployed on the newly created cluster:</p>
-<pre><code><code><div>kubectl apply -f 02_cloud_deployment/deployment.yml
+<pre><code><code><div>kubectl apply -f 1_5_cloud_deployment/deployment.yml
 </div></code></code></pre>
 <p>A load balancer is created as a service in the previous step. After a certain waiting time, a public IP address is displayed. The website of the demo application can then be reached via a web browser:</p>
 <pre><code><code><div>kubectl get services
@@ -201,7 +202,7 @@ First the Google Cloud environment has to be prepared by enabling a couple of AP
 <pre><code><code><div>gcloud auth application-default login
 </div></code></code></pre>
 <p>The following command initializes a working directory containing Terraform configuration files:</p>
-<pre><code><code><div>cd 02_terraform_deployment
+<pre><code><code><div>cd 1_7_terraform_deployment
 terraform init
 </div></code></code></pre>
 <p>The <strong>terraform plan</strong> command creates an execution plan, which lets you preview the changes that Terraform plans to make to your infrastructure. By default, when Terraform creates a plan it:</p>
@@ -220,7 +221,7 @@ With the following command you are going to create a Terraform plan, you have to
 <pre><code><code><div>gcloud container clusters get-credentials my-terraform-cluster --region europe-west3 --project ${PROJECT_ID}
 </div></code></code></pre>
 <p>Now the demo application can be deployed on the newly created cluster:</p>
-<pre><code><code><div>kubectl apply -f 02_cloud_deployment/deployment.yml
+<pre><code><code><div>kubectl apply -f 1_5_cloud_deployment/deployment.yml
 </div></code></code></pre>
 <p>A load balancer is created as a service in the previous step. After a certain waiting time, a public IP address is displayed. The website of the demo application can then be reached via a web browser:</p>
 <pre><code><code><div>kubectl get services

@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: demo-1
+  name: dpl-demo-1
+  namespace: default
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: demo-1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: demo-1
+    spec:
+      containers:
+      - name: demo-container
+        image: gcr.io/neat-responder-349115/demo-app:sydney
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+      dnsPolicy: ClusterFirst

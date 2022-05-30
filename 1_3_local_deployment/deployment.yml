@@ -1,10 +1,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app: demo-1
   name: dpl-demo-1
   namespace: default
+  labels:
+    app: demo-1
 spec:
   replicas: 3
   selector:
@@ -21,9 +21,9 @@ spec:
         app: demo-1
     spec:
       containers:
-      - image: gcr.io/neat-responder-349115/demo-app:sydney
+      - name: demo-container
+        image: gcr.io/neat-responder-349115/demo-app:sydney
         imagePullPolicy: Always
-        name: demo-container
         ports:
         - containerPort: 80
       dnsPolicy: ClusterFirst
