@@ -1,16 +1,17 @@
 # Cloud Bites Tutorial
 <img src = "media_sources/logo.png" width = "400" align="left"><br><br><br><br><br>
 This tutorial introduces the basics of application deployment in a cloud-native environment.  
-A simple website serves as a sample application and can be run as a container in various cloud environments. The sample application’s source code is part of the tutorial. The idea is to develop this tutorial continuously. Chapter 1 outlines the basics of container technology and the deployment and management of container applications. This first chapter consists of several parts that build on each other. Chapter 2 examines the ecosystem more broadly, discussing, for example, various projects from the [Cloud-Native Computing Foundation] (https://www.cncf.io/) cosmos.  
+A simple website serves as a sample application and can be run as a container in various cloud environments. The sample application’s source code is part of the tutorial. The idea is to develop this tutorial continuously. Chapter 1 outlines the basics of container technology and the deployment and management of container applications. This first chapter consists of several parts that build on each other. Chapter 2 examines the ecosystem more broadly, discussing, for example, various projects from the [Cloud-Native Computing Foundation](https://www.cncf.io/) cosmos.  
 For simplicity, do not attempt this while using a corporate firewall. Comments, additions, and collaboration are welcome.
 ***
+
 
 ## **Chapter 1 - Basics of container technology, deployment and management of container applications**
 
 ### **1. Setup of local environment**
 The tutorial provides a virtual machine (VM) to ensure a consistent development environment. This VM is deployed using [Vagrant](https://www.vagrantup.com/). Vagrant allows it to leverage a declarative configuration file that describes the required software, packages, and operating system configuration. The VM used in this tutorial is based on Ubuntu 20.04 LTS. The VM is allocated 1 vCPU and 4 GB of RAM.  
 We recommend [Virtualbox](https://www.virtualbox.org/) as the virtualization software for this tutorial.  
-This tutorial uses [Visual Studio Code] (https://code.visualstudio.com/) as a code editor.  
+This tutorial uses [Visual Studio Code](https://code.visualstudio.com/) as a code editor.  
 
 After installing the three components (Vagrant, VirtualBox, and Visual Studio Code), the GitHub repository can be cloned, and the VM can be started:
 ```
@@ -28,7 +29,7 @@ The VM has been configured to mount the host PC's file system, it is available i
 cd /vagrant
 ```
 ***
-### **2. Build and run Docker container locally**
+### **2. Build and run Docker containers locally**
 In this section, a container with the demo application is created first. This container is started locally can be reached via the host PC’s web browser.  
 
 Switch to the directory:
@@ -72,7 +73,7 @@ docker push <dockerhub_username>/<image_name>
 ```
 ***
 ### **3. Deploy a local Kubernetes cluster using K3D**
-In the following section you are going to use the [K3D](https://k3d.io) project to locally deploy a minimal Kubernetes cluster. K3D is a lightweight wrapper to run [K3S](https://k3s.io), Rancher Lab’s minimal Kubernetes distribution, in Docker. K3D makes it very easy to create single- and multi-node K3S clusters in Docker, e.g. for local development on Kubernetes. A good introduction with some use cases can be found in the [DevOps Toolkit YouTube video](https://www.youtube.com/watch?v=mCesuGk-Fks).  
+In the following section you are going to use the [K3D](https://k3d.io) project to locally deploy a minimal Kubernetes cluster. K3D is a lightweight wrapper to run [K3S](https://k3s.io), Rancher Lab’s minimal Kubernetes distribution, in Docker. K3D makes it very easy to create single- and multi-node K3S clusters in Docker, e.g. for local development on Kubernetes. A good introduction to K3D with some use cases can be found in the [DevOps Toolkit YouTube video](https://www.youtube.com/watch?v=mCesuGk-Fks).  
 
 Deploy a local K3D cluster with three control planes and three worker nodes:
 ```
