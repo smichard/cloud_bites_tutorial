@@ -47,15 +47,16 @@
     <body class="vscode-body vscode-light">
         <h1 id="cloud-bites-tutorial">Cloud Bites Tutorial</h1>
 <p><img src = "media_sources/logo.png" width = "400" align="left"><br><br><br><br><br>
-The idea of ​​the tutorial is to give an introduction to the basics of application deployment in a cloud native environment. A simple website serves as a sample application, this website can be run as a container in various cloud environments. The source code of the sample application is part of the tutorial. The idea is to continuously develop this tutorial. In a first chapter, the basics of container technology, deployment and management of container applications are outlined. This first chapter consists of several parts that build on each other. In a second chapter, the idea is to have a broader look at the ecosystem e. g. various projects from the <a href="https://www.cncf.io/">Cloud Native Computing Foundation</a> cosmos are going to be discussed.<br>
-For simplicity make sure not to be behind a corporate firewall. Comments, additions and collaboration are welcome.</p>
+This tutorial introduces the basics of application deployment in a cloud-native environment.<br>
+A simple website serves as a sample application and can be run as a container in various cloud environments. The sample application’s source code is part of the tutorial. The idea is to develop this tutorial continuously. Chapter 1 outlines the basics of container technology and the deployment and management of container applications. This first chapter consists of several parts that build on each other. Chapter 2 examines the ecosystem more broadly, discussing, for example, various projects from the [Cloud-Native Computing Foundation] (<a href="https://www.cncf.io/">https://www.cncf.io/</a>) cosmos.<br>
+For simplicity, do not attempt this while using a corporate firewall. Comments, additions, and collaboration are welcome.</p>
 <hr>
 <h2 id="chapter-1---basics-of-container-technology-deployment-and-management-of-container-applications"><strong>Chapter 1 - Basics of container technology, deployment and management of container applications</strong></h2>
 <h3 id="1-setup-of-local-environment"><strong>1. Setup of local environment</strong></h3>
-<p>In order to have a consistent development environment, a virtual machine (VM) is provided in the tutorial. This VM is deployed using <a href="https://www.vagrantup.com/">Vagrant</a>, vagrant allows it to leverage a declarative configuration file which describes all the required software, packages, operating system configuration. The VM used in this tutorial is based on Ubuntu 20.4 LTS. The VM is allocated 1 vCPU and 4 GB of RAM.
-<a href="https://www.virtualbox.org/">Virtualbox</a> is recommended as the virtualization software for this tutorial.
-As a code editor, this tutorial uses <a href="https://code.visualstudio.com/">Visual Studio Code</a>.</p>
-<p>After the three components - Vagrant, Virtualbox, Visual Studio Code - have been installed, the GitHub repository can be cloned and the VM can be started:</p>
+<p>The tutorial provides a virtual machine (VM) to ensure a consistent development environment. This VM is deployed using <a href="https://www.vagrantup.com/">Vagrant</a>. Vagrant allows it to leverage a declarative configuration file that describes the required software, packages, and operating system configuration. The VM used in this tutorial is based on Ubuntu 20.04 LTS. The VM is allocated 1 vCPU and 4 GB of RAM.<br>
+We recommend <a href="https://www.virtualbox.org/">Virtualbox</a> as the virtualization software for this tutorial.<br>
+This tutorial uses [Visual Studio Code] (<a href="https://code.visualstudio.com/">https://code.visualstudio.com/</a>) as a code editor.</p>
+<p>After installing the three components (Vagrant, VirtualBox, and Visual Studio Code), the GitHub repository can be cloned, and the VM can be started:</p>
 <pre><code><code><div>git config --global core.autocrlf false
 git clone
 cd cloud_bites_tutorial
@@ -64,26 +65,26 @@ vagrant up
 <p>After the VM has started and all software components have been fully installed, you can log into the VM via ssh:</p>
 <pre><code><code><div>vagrant ssh
 </div></code></code></pre>
-<p>The VM has been configured to mount the host PC's file system, this is available under the <em>vagrant</em> folder:</p>
+<p>The VM has been configured to mount the host PC's file system, it is available in the <em>vagrant</em> folder:</p>
 <pre><code><code><div>cd /vagrant
 </div></code></code></pre>
 <hr>
 <h3 id="2-build-and-run-docker-container-locally"><strong>2. Build and run Docker container locally</strong></h3>
-<p>In this section, a container with the demo application is created first. This container is started locally and can be reached via the web browser of the host PC.</p>
+<p>In this section, a container with the demo application is created first. This container is started locally can be reached via the host PC’s web browser.</p>
 <p>Switch to the directory:</p>
 <pre><code><code><div>cd cloud_bites_tutorial/1_2_app_sources
 </div></code></code></pre>
 <p>View the container images available in the VM:</p>
 <pre><code><code><div>docker images
 </div></code></code></pre>
-<p>Build the container image based on the Dockerfile located in the folder:</p>
+<p>Build the container image based on the folder’s Dockerfile:</p>
 <pre><code><code><div>docker build -t &lt;image_name&gt; .
 docker images
 </div></code></code></pre>
-<p>Running the Docker container. With the following command the container runs in the background and the VM ports 8082 are mapped to the container port 80. The website is available via the Host PC's web browser at <em>localhost:8082</em>:</p>
+<p>Running the Docker container. With the following command the container runs in the background and the VM ports <em>8082</em> are mapped to the container port <em>80</em>. The website is available via the Host PC's web browser at <em>localhost:8082</em>:</p>
 <pre><code><code><div>docker run -d -p 8082:80 &lt;image_name&gt;
 </div></code></code></pre>
-<p>With the help of a small helper script, the source code of the sample application can be easily modified. This helper script is run twice and the container image is also rebuilt twice. The commands shown start new containers with the newly generated container images. The website is then available via the host PC's web browser under <em>localhost:8083</em> and <em>localhost:8084</em>:</p>
+<p>The sample application’s source code can be modified easily with the help of a small helper script. This helper script is run twice, and the container image is rebuilt twice. The commands shown start new containers with the newly generated container images. The website is then available via the host PC's web browser under <em>localhost:8083</em> and <em>localhost:8084</em>:</p>
 <pre><code><code><div>./update_script.sh
 docker build -t &lt;image_name_2&gt; .
 docker run -d -p 8083:80 &lt;image_name_2&gt;
@@ -95,21 +96,21 @@ docker run -d -p 8084:80 &lt;image_name_3&gt;
 <pre><code><code><div>docker ps
 docker kill &lt;container_id&gt;
 </div></code></code></pre>
-<p>If you have an account on Docker Hub, the created container images can be pushed to the container registry. The container image must contain the Dockerhub username. Therefore, the container image may need to be rebuilt or named appropriately via a tag:</p>
+<p>The created container images can be pushed to the container registry if you have an account on Docker Hub. The container image must contain the Dockerhub username. So, the container image may need to be rebuilt or named appropriately via a tag:</p>
 <pre><code><code><div>docker login
 docker push &lt;dockerhub_username&gt;/&lt;image_name&gt;
 </div></code></code></pre>
 <hr>
 <h3 id="3-deploy-a-local-kubernetes-cluster-using-k3d"><strong>3. Deploy a local Kubernetes cluster using K3D</strong></h3>
-<p>In the following section we will use the <a href="https://k3d.io">K3D</a> project to locally deploy a minimal Kubernetes cluster. K3D is a lightweight wrapper to run <a href="https://k3s.io">K3S</a>, Rancher Lab’s minimal Kubernetes distribution, in Docker. K3D makes it very easy to create single- and multi-node K3S clusters in Docker, e.g. for local development on Kubernetes. A good introduction with some use cases can be found in the <a href="https://www.youtube.com/watch?v=mCesuGk-Fks">DevOps Toolkit YouTube video</a>.</p>
-<p>Deploy a local K3D cluster with 3 controlplane and 3 worker nodes:</p>
+<p>In the following section you are going to use the <a href="https://k3d.io">K3D</a> project to locally deploy a minimal Kubernetes cluster. K3D is a lightweight wrapper to run <a href="https://k3s.io">K3S</a>, Rancher Lab’s minimal Kubernetes distribution, in Docker. K3D makes it very easy to create single- and multi-node K3S clusters in Docker, e.g. for local development on Kubernetes. A good introduction with some use cases can be found in the <a href="https://www.youtube.com/watch?v=mCesuGk-Fks">DevOps Toolkit YouTube video</a>.</p>
+<p>Deploy a local K3D cluster with three control planes and three worker nodes:</p>
 <pre><code><code><div>k3d cluster create local-cluster --servers 3 --agents 3 -p &quot;8080:80@loadbalancer&quot;
 </div></code></code></pre>
 <p>The cluster and the individual nodes can be displayed with the following commands:</p>
 <pre><code><code><div>k3d cluster list
 kubectl get nodes
 </div></code></code></pre>
-<p>With the following command, the demo application is deployed to the local Kubernetes cluster that has just been created. This step creates a deployment with multiple containers, a service, and an ingress. The declarative configuration can be found in the <code>1_3_local_deployment/deployment.yml</code> file:</p>
+<p>The following command deploys the demo application to the local Kubernetes cluster that has just been created. This step creates a deployment with multiple pods, a service, and an ingress controller. You can find the declarative configuration in the <code>1_3_local_deployment/deployment.yml</code> file:</p>
 <pre><code><code><div>kubectl apply -f 1_3_local_deployment/deployment.yml
 </div></code></code></pre>
 <p>The following command displays the deployment, the replica set, the pods, and the service:</p>
@@ -118,7 +119,7 @@ kubectl get nodes
 <p>The website is then available via the host PC's web browser under <em>localhost:8080</em>.</p>
 <hr>
 <h3 id="4-basic-operations-to-handle-pods-and-deployments"><strong>4. Basic operations to handle Pods and Deployments</strong></h3>
-<p>The following section is about getting to know a few basic commands for handling pods and deployments. The following commands create two pods named <code>my-pod-1</code> and <code>my-pod-2</code> each with container image <code>nginx:alpine</code>. The last command shows all pods running in the default namespace:</p>
+<p>The following section details a few basic commands for handling pods and deployments. The following commands create two pods named <code>my-pod-1</code> and <code>my-pod-2</code> each with the container image <code>nginx:alpine</code>. The last command shows all pods running in the default namespace:</p>
 <pre><code><code><div>kubectl run my-pod-1 --image=nginx:alpine
 kubectl run my-pod-2 --image=nginx:alpine
 kubectl get pods
@@ -127,52 +128,52 @@ kubectl get pods
 <pre><code><code><div>kubectl delete pod my-pod-1
 kubectl get pods
 </div></code></code></pre>
-<p>The following command scales the deployment created in the previous section to 6 replicas. The second command displays the deployment, the replica sets, and the pods in the default namespace. Now 6 pods should be displayed for the <code>dpl-demo-1</code>:</p>
+<p>The following command scales the deployment created in the previous section to six replicas. The second command displays the deployment, the replica sets, and the pods in the default namespace. Now, six pods should be shown for <code>dpl-demo-1</code>:</p>
 <pre><code><code><div>kubectl scale deployment dpl-demo-1 --replicas=6
 kubectl get deployments,replicasets,pods
 </div></code></code></pre>
-<p>Now it's time to change the deployment. To do this, the <code>1_3_local_deployment/deployment.yml</code> file must be modified. For example, in line 24, the container image can be changed from <code>demo-app:sydney</code> to <code>demo-app:london</code>. The adjusted deployment is rolled out again with the following command:</p>
+<p>Now it's time to change the deployment. The <code>1_3_local_deployment/deployment.yml</code> file must be modified to do this. For example, in line 24, the container image can be changed from <code>demo-app:sydney</code> to <code>demo-app:london</code>. The adjusted deployment is rolled out again with the following command:</p>
 <pre><code><code><div>kubectl apply -f 1_3_local_deployment/deployment.yml
 kubectl get deployments,replicasets,pods
 </div></code></code></pre>
-<p>The second command displayed the deployment, the replica sets, and the pods for the default namespace. By rolling out the changed deployment, a new replica set was created in which the number of pods is scaled up to the required number of pods. For the existing replica set, the number of pods is scaled to zero.
-The deployment is changed a second time and rolled out again. To do this, the container image is changed from <code>demo-app:london</code> to <code>demo-app:newyork</code> in line 24 of the <code>1_3_local_deployment/deployment.yml</code> file. The adjusted deployment is rolled out again with the following command:</p>
+<p>The second command displayed the deployment, the replica sets, and the pods for the default namespace. By launching the changed deployment, a new replica set was created in which the number of pods is scaled up to the required number of pods. The number of pods for the existing replica set is scaled to zero.<br>
+The deployment is changed a second time and rolled out again. How does this occur? The container image is modified from <code>demo-app:london</code> to <code>demo-app:newyork</code> in line 24 of the <code>1_3_local_deployment/deployment.yml</code> file. The adjusted deployment is rolled out again with the following command:</p>
 <pre><code><code><div>kubectl apply -f 1_3_local_deployment/deployment.yml
 kubectl get deployments,replicasets,pods
 </div></code></code></pre>
-<p>Keep in mind: the website of the demo application is always available via the host PC's web browser via <em>localhost:8080</em>.<br>
-The following command shows a list of revisions for the <code>dpl-demo-1</code> deployment. The second command displays details for a specifiv revision:</p>
+<p>The demo application’s website is always available via the host PC's web browser via <em>localhost:8080</em>.<br>
+The following command shows a list of revisions for the <code>dpl-demo-1</code> deployment. The second command displays details for a specific revision:</p>
 <pre><code><code><div>kubectl rollout history deployment dpl-demo-1
 kubectl rollout history deployment dpl-demo-1 --revision=2
 </div></code></code></pre>
-<p>To roll back the deployment to a specific revision use the following command:</p>
+<p>Use the following command to roll back the deployment to a specific revision:</p>
 <pre><code><code><div>kubectl rollout undo deployment dpl-demo-1 --to-revision=2
 </div></code></code></pre>
-<p>If the deployment is rolled back, the number of pods for the corresponding ReplicaSet is scaled, which means that no new ReplicaSet is created but an existing one is used.</p>
+<p>If the deployment is rolled back, the number of pods for the corresponding ReplicaSet is scaled, meaning no new ReplicaSet is created, but an existing one is used.</p>
 <hr>
 <h3 id="5-deploy-a-remote-kubernetes-cluster-using-google-cloud--part-1"><strong>5. Deploy a remote Kubernetes cluster using Google Cloud – part 1</strong></h3>
-<p>In the following section, a Kubernetes cluster is deployed in a public cloud. For this purpose, <a href="https://cloud.google.com/">Google Cloud</a> is used in this tutorial, for the sake of simplicity it is assumed that a Google Cloud account already exists.<br>
-Important: in the following parts of the tutorial, costs are generated at the public cloud provider used. To minimize costs, it is therefore important to limit the runtime of the clusters and to prevent possible idle time.</p>
-<p>First obtain access to your Google Cloud account:</p>
+<p>In the following section, a Kubernetes cluster is deployed in a public cloud. For this purpose, we use <a href="https://cloud.google.com/">Google Cloud</a> in this tutorial. For simplicity, we assume that a Google Cloud account already exists.<br>
+<strong>Costs are generated at the public cloud provider used in the following tutorial sections. It is, therefore, vital to limit the runtime of the clusters and prevent possible idle time to minimize costs.</strong></p>
+<p>First, obtain access to your Google Cloud account:</p>
 <pre><code><code><div>gcloud init --console-only
 </div></code></code></pre>
-<p>The following command creates a new Google Cloud project. A random project name is generated. Lastly, the newly created project is specified in the active configuration.</p>
+<p>The following command creates a new Google Cloud project, generating a random project name. Last, the newly created project is specified in the active configuration.</p>
 <pre><code><code><div>PROJECT_ID=&quot;gcp-$(($(date +%s%d)/1000000))$(($RANDOM%20))&quot; &amp;&amp; echo $PROJECT_ID
 gcloud projects create ${PROJECT_ID} --name &quot;${PROJECT_ID}&quot;
 gcloud config set project ${PROJECT_ID}
 </div></code></code></pre>
-<p>Before moving on with the Tutorial make sure to <a href="https://cloud.google.com/billing/docs/how-to/modify-project#enable_billing_for_a_new_project">enable billing</a> on the new project.</p>
+<p>Before proceeding with the tutorial, make sure to <a href="https://cloud.google.com/billing/docs/how-to/modify-project#enable_billing_for_a_new_project">enable billing</a> on the new project.</p>
 <p>Then the Kubernetes cluster can be deployed. In a first step, required Google Cloud APIs are activated:</p>
 <pre><code><code><div>gcloud services enable compute.googleapis.com cloudresourcemanager.googleapis.com container.googleapis.com
 gcloud beta container --project ${PROJECT_ID} clusters create &quot;my-gke-cluster&quot; --zone &quot;europe-west3-a&quot;
 </div></code></code></pre>
-<p>In order do be able to interact with the newly created Kubernetes Cluster you have to fetch its credentials:</p>
+<p>To interact with the newly created Kubernetes Cluster, fetch its credentials. This commands updates the local <em>kubeconfig</em> file with the appropriate credentials and endpoint information:</p>
 <pre><code><code><div>gcloud container clusters get-credentials my-gke-cluster --zone europe-west3-a --project ${PROJECT_ID}
 </div></code></code></pre>
 <p>Now the demo application can be deployed on the newly created cluster:</p>
 <pre><code><code><div>kubectl apply -f 1_5_cloud_deployment/deployment.yml
 </div></code></code></pre>
-<p>A load balancer is created as a service in the previous step. After a certain waiting time, a public IP address is displayed. The website of the demo application can then be reached via a web browser:</p>
+<p>A load balancer was created as a networking service in the previous step. After a certain wait time, a public IP address is displayed. The website of the demo application can then be reached via a web browser:</p>
 <pre><code><code><div>kubectl get services
 </div></code></code></pre>
 <p>The Kubernetes cluster can be deleted with the following command:</p>
@@ -180,25 +181,25 @@ gcloud beta container --project ${PROJECT_ID} clusters create &quot;my-gke-clust
 </div></code></code></pre>
 <hr>
 <h3 id="6-deploy-a-remote-kubernetes-cluster-using-google-cloud--part-2"><strong>6. Deploy a remote Kubernetes cluster using Google Cloud – part 2</strong></h3>
-<p>In this section, another Kubernetes cluster is created on Google Cloud. This time the so-called Cloud Console is used:
+<p>In this section, another Kubernetes cluster is created on Google Cloud. This time, the Cloud Console is used:
 <img src="file:///c:\Users\michas4\Documents\coding_projects\k8s_learning_path\cloud_bites_tutorial\media_sources\google_cloud_gke.png" alt="Google Cloud Screenshot"></p>
-<p>Once the Kubernetes Cluster was created successfully you can proceed to fetch its credentials:</p>
+<p>Once the Kubernetes Cluster has been created successfully, fetch its credentials:</p>
 <pre><code><code><div>gcloud container clusters get-credentials my-gke-cluster-2 --zone europe-west3-a --project ${PROJECT_ID}
 </div></code></code></pre>
 <p>Now the demo application can be deployed on the newly created cluster:</p>
 <pre><code><code><div>kubectl apply -f 1_5_cloud_deployment/deployment.yml
 </div></code></code></pre>
-<p>A load balancer is created as a service in the previous step. After a certain waiting time, a public IP address is displayed. The website of the demo application can then be reached via a web browser:</p>
+<p>A load balancer was created as a networking service in the previous step. After a certain wait time, a public IP address is displayed. The website of the demo application can then be reached via a web browser:</p>
 <pre><code><code><div>kubectl get services
 </div></code></code></pre>
-<p>Here, too, it is important to delete the Kubernetes cluster if it is not used in order to keep costs low.</p>
+<p>It is crucial to delete the Kubernetes cluster if unused to keep costs low.</p>
 <hr>
 <h3 id="7-deploy-a-remote-kubernetes-cluster-leveraging-terraform"><strong>7. Deploy a remote Kubernetes cluster leveraging Terraform</strong></h3>
-<p>In this section a Kubernetes cluster is created on Google Cloud leveraging <a href="https://www.terraform.io">Terraform</a>. Terraform is an infrastructure as code tool that allows one to build infrastructure on various platforms safely and efficiently in a declarative way.<br>
+<p>In this section a Kubernetes cluster is created on Google Cloud leveraging <a href="https://www.terraform.io">Terraform</a>. Terraform is an infrastructure as code tool allowing one to build infrastructure safely and efficiently in a declarative way on various platforms.<br>
 First the Google Cloud environment has to be prepared by enabling a couple of API's:</p>
 <pre><code><code><div>gcloud services enable compute.googleapis.com container.googleapis.com
 </div></code></code></pre>
-<p>The next command authorizes the Google Cloud SDK to access Google Cloud using your user account credentials. Finally, this step adds your account to the Application Default Credentials. This will allow Terraform to access these credentials to provision resources on Google Cloud:</p>
+<p>The following command authorizes the Google Cloud SDK to access Google Cloud using your user account credentials. This step adds your account to the Application Default Credentials, allowing Terraform to access these credentials to provision resources on Google Cloud:</p>
 <pre><code><code><div>gcloud auth application-default login
 </div></code></code></pre>
 <p>The following command initializes a working directory containing Terraform configuration files:</p>
@@ -210,31 +211,31 @@ terraform init
 <li>Reads the current state of any already-existing remote objects to make sure that the Terraform state is up-to-date.</li>
 <li>Compares the current configuration to the prior state and noting any differences.</li>
 <li>Proposes a set of change actions that should, if applied, make the remote objects match the configuration.
-With the following command you are going to create a Terraform plan, you have to pass the project ID generated earlier as a variable:</li>
+With the following command, you will create a Terraform plan. You must pass the project ID generated earlier as a variable:</li>
 </ul>
 <pre><code><code><div>terraform plan -var project_id=${PROJECT_ID}
 </div></code></code></pre>
 <p>The <strong>terraform apply</strong> command executes the actions proposed in a Terraform plan.</p>
 <pre><code><code><div>terraform apply -var project_id=${PROJECT_ID}
 </div></code></code></pre>
-<p>Once the Kubernetes Cluster was created successfully you can proceed to fetch its credentials:</p>
+<p>After creating the Kubernetes Cluster successfully, you can fetch its credentials:</p>
 <pre><code><code><div>gcloud container clusters get-credentials my-terraform-cluster --region europe-west3 --project ${PROJECT_ID}
 </div></code></code></pre>
 <p>Now the demo application can be deployed on the newly created cluster:</p>
 <pre><code><code><div>kubectl apply -f 1_5_cloud_deployment/deployment.yml
 </div></code></code></pre>
-<p>A load balancer is created as a service in the previous step. After a certain waiting time, a public IP address is displayed. The website of the demo application can then be reached via a web browser:</p>
+<p>A load balancer was created as a networking service in the previous step. After a certain wait time, a public IP address is displayed. The website of the demo application can then be reached via a web browser:</p>
 <pre><code><code><div>kubectl get services
 </div></code></code></pre>
-<p>The <strong>terraform destroy</strong> command is a convenient way to destroy all remote objects managed by a particular Terraform configuration.</p>
+<p>The <strong>terraform destroy</strong> command conveniently eliminates all remote objects managed by a particular Terraform configuration:</p>
 <pre><code><code><div>terraform destroy -var project_id=${PROJECT_ID}
 </div></code></code></pre>
-<p>If you don't need your Google Cloud project anymore you can proceed and delete the project:</p>
+<p>If you don’t need your Google Cloud project anymore, you can delete the project:</p>
 <pre><code><code><div>gcloud projects delete ${PROJECT_ID}
 </div></code></code></pre>
 <hr>
 <h3 id="8-visualize-kubernetes-workloads-with-vmware-octant"><strong>8. Visualize Kubernetes workloads with VMware Octant</strong></h3>
-<p>In this section you are going to explore the various Kubernetes Cluster created earlier with <a href="https://octant.dev/">VMware Octant</a>. Octant is a tool for developers to understand how applications run on a Kubernetes cluster. It aims to be part of the developer's toolkit for gaining insight and approaching complexity found in Kubernetes. Octant offers a combination of introspective tooling, cluster navigation, and object management along with a plugin system to further extend its capabilities.</p>
+<p>You will explore, in this section, the various Kubernetes clusters created earlier with <a href="https://octant.dev/">VMware Octant</a>. Octant is a tool for developers to understand how applications run on a Kubernetes cluster. It aims to be part of the developer’s toolkit for gaining insight and approaching complexity found in Kubernetes. Octant offers a combination of introspective tooling, cluster navigation, and object management. It also provides a plugin system to extend its capabilities further.</p>
 <p>Start Octant:</p>
 <pre><code><code><div>octant
 </div></code></code></pre>
