@@ -108,7 +108,7 @@ source $ZSH/oh-my-zsh.sh
 alias k="kubectl"
 alias ka="kubectl apply -f"
 alias kg="kubectl get all"
-alias wa="watch -n 1 kubectl get all"
+alias wa="watch -n 1 kubectl get deployment,rs,pods"
 alias cc="clear"
 export OCTANT_DISABLE_OPEN_BROWSER=true
 export OCTANT_LISTENER_ADDR=0.0.0.0:8001
