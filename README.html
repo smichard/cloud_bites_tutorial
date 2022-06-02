@@ -162,13 +162,17 @@ kubectl rollout history deployment dpl-demo-1 --revision=2
 gcloud projects create ${PROJECT_ID} --name &quot;${PROJECT_ID}&quot;
 gcloud config set project ${PROJECT_ID}
 </div></code></code></pre>
+<p>For simplicity let's define a defult compute region and a default compute zone:</p>
+<pre><code><code><div>gcloud config set compute/region europe-west3
+gcloud config set compute/zone europe-west3a
+</div></code></code></pre>
 <p>Before proceeding with the tutorial, make sure to <a href="https://cloud.google.com/billing/docs/how-to/modify-project#enable_billing_for_a_new_project">enable billing</a> on the new project.</p>
 <p>Then the Kubernetes cluster can be deployed. In a first step, required Google Cloud APIs are activated:</p>
 <pre><code><code><div>gcloud services enable compute.googleapis.com cloudresourcemanager.googleapis.com container.googleapis.com
-gcloud beta container --project ${PROJECT_ID} clusters create &quot;my-gke-cluster&quot; --zone &quot;europe-west3-a&quot;
+gcloud beta container clusters create my-gke-cluster --zone &quot;europe-west3-a&quot;
 </div></code></code></pre>
 <p>To interact with the newly created Kubernetes Cluster, fetch its credentials. This commands updates the local <em>kubeconfig</em> file with the appropriate credentials and endpoint information:</p>
-<pre><code><code><div>gcloud container clusters get-credentials my-gke-cluster --zone europe-west3-a --project ${PROJECT_ID}
+<pre><code><code><div>gcloud container clusters get-credentials my-gke-cluster
 </div></code></code></pre>
 <p>Now the demo application can be deployed on the newly created cluster:</p>
 <pre><code><code><div>kubectl apply -f 1_5_cloud_deployment/deployment.yml
@@ -177,14 +181,14 @@ gcloud beta container --project ${PROJECT_ID} clusters create &quot;my-gke-clust
 <pre><code><code><div>kubectl get services
 </div></code></code></pre>
 <p>The Kubernetes cluster can be deleted with the following command:</p>
-<pre><code><code><div>gcloud container clusters delete my-gke-cluster --zone europe-west3-a
+<pre><code><code><div>gcloud container clusters delete my-gke-cluster
 </div></code></code></pre>
 <hr>
 <h3 id="6-deploy-a-remote-kubernetes-cluster-using-google-cloud--part-2"><strong>6. Deploy a remote Kubernetes cluster using Google Cloud – part 2</strong></h3>
 <p>In this section, another Kubernetes cluster is created on Google Cloud. This time, the Cloud Console is used:
 <img src="file:///c:\Users\michas4\Documents\coding_projects\k8s_learning_path\cloud_bites_tutorial\media_sources\google_cloud_gke.png" alt="Google Cloud Screenshot"></p>
 <p>Once the Kubernetes Cluster has been created successfully, fetch its credentials:</p>
-<pre><code><code><div>gcloud container clusters get-credentials my-gke-cluster-2 --zone europe-west3-a --project ${PROJECT_ID}
+<pre><code><code><div>gcloud container clusters get-credentials my-gke-cluster-2
 </div></code></code></pre>
 <p>Now the demo application can be deployed on the newly created cluster:</p>
 <pre><code><code><div>kubectl apply -f 1_5_cloud_deployment/deployment.yml
@@ -219,7 +223,7 @@ With the following command, you will create a Terraform plan. You must pass the 
 <pre><code><code><div>terraform apply -var project_id=${PROJECT_ID}
 </div></code></code></pre>
 <p>After creating the Kubernetes Cluster successfully, you can fetch its credentials:</p>
-<pre><code><code><div>gcloud container clusters get-credentials my-terraform-cluster --region europe-west3 --project ${PROJECT_ID}
+<pre><code><code><div>gcloud container clusters get-credentials my-terraform-cluster
 </div></code></code></pre>
 <p>Now the demo application can be deployed on the newly created cluster:</p>
 <pre><code><code><div>kubectl apply -f 1_5_cloud_deployment/deployment.yml
