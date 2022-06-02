@@ -1,23 +1,3 @@
-#variable "gke_username" {
-#  default     = ""
-#  description = "gke username"
-#}
-
-#variable "gke_password" {
-#  default     = ""
-#  description = "gke password"
-#}
-
-#variable "gke_num_nodes" {
-#  default     = 3
-#  description = "number of gke nodes"
-#}
-
-#variable "machine_type" {
-#  description = "Machine type to be used"
-#  default = "e2-medium"
-#}
-
 # GKE cluster
 resource "google_container_cluster" "primary" {
   name     = var.cluster_name
