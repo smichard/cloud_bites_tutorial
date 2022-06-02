@@ -156,17 +156,23 @@ gcloud projects create ${PROJECT_ID} --name "${PROJECT_ID}"
 gcloud config set project ${PROJECT_ID}
 ```
 
+For simplicity let's define a defult compute region and a default compute zone:
+```
+gcloud config set compute/region europe-west3
+gcloud config set compute/zone europe-west3a
+```
+
 Before proceeding with the tutorial, make sure to [enable billing](https://cloud.google.com/billing/docs/how-to/modify-project#enable_billing_for_a_new_project) on the new project.  
 
 Then the Kubernetes cluster can be deployed. In a first step, required Google Cloud APIs are activated:
 ```
 gcloud services enable compute.googleapis.com cloudresourcemanager.googleapis.com container.googleapis.com
-gcloud beta container --project ${PROJECT_ID} clusters create "my-gke-cluster" --zone "europe-west3-a"
+gcloud beta container clusters create my-gke-cluster --zone "europe-west3-a"
 ```
 
 To interact with the newly created Kubernetes Cluster, fetch its credentials. This commands updates the local *kubeconfig* file with the appropriate credentials and endpoint information:
 ```
-gcloud container clusters get-credentials my-gke-cluster --zone europe-west3-a --project ${PROJECT_ID}
+gcloud container clusters get-credentials my-gke-cluster
 ```
 
 Now the demo application can be deployed on the newly created cluster:
@@ -180,7 +186,7 @@ kubectl get services
 
 The Kubernetes cluster can be deleted with the following command:
 ```
-gcloud container clusters delete my-gke-cluster --zone europe-west3-a
+gcloud container clusters delete my-gke-cluster
 ```
 ***
 ### **6. Deploy a remote Kubernetes cluster using Google Cloud – part 2**
@@ -190,7 +196,7 @@ In this section, another Kubernetes cluster is created on Google Cloud. This tim
 
 Once the Kubernetes Cluster has been created successfully, fetch its credentials:
 ```
-gcloud container clusters get-credentials my-gke-cluster-2 --zone europe-west3-a --project ${PROJECT_ID}
+gcloud container clusters get-credentials my-gke-cluster-2
 ```
 
 Now the demo application can be deployed on the newly created cluster:
@@ -238,7 +244,7 @@ terraform apply -var project_id=${PROJECT_ID}
 
 After creating the Kubernetes Cluster successfully, you can fetch its credentials:
 ```
-gcloud container clusters get-credentials my-terraform-cluster --region europe-west3 --project ${PROJECT_ID}
+gcloud container clusters get-credentials my-terraform-cluster
 ```
 
 Now the demo application can be deployed on the newly created cluster:
