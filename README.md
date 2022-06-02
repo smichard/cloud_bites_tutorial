@@ -146,7 +146,7 @@ In the following section, a Kubernetes cluster is deployed in a public cloud. Fo
 
 First, obtain access to your Google Cloud account:
 ```
-gcloud init --console-only
+gcloud auth login
 ```
 
 The following command creates a new Google Cloud project, generating a random project name. Last, the newly created project is specified in the active configuration.
@@ -156,17 +156,21 @@ gcloud projects create ${PROJECT_ID} --name "${PROJECT_ID}"
 gcloud config set project ${PROJECT_ID}
 ```
 
-For simplicity let's define a defult compute region and a default compute zone:
+Before proceeding with the tutorial, make sure to [enable billing](https://cloud.google.com/billing/docs/how-to/modify-project#enable_billing_for_a_new_project) on the new project.  
+
+Then some required Google Cloud APIs have to be activated:
+```
+gcloud services enable compute.googleapis.com container.googleapis.com
+```
+
+For simplicity let's define a default compute region and a default compute zone:
 ```
 gcloud config set compute/region europe-west3
 gcloud config set compute/zone europe-west3a
 ```
 
-Before proceeding with the tutorial, make sure to [enable billing](https://cloud.google.com/billing/docs/how-to/modify-project#enable_billing_for_a_new_project) on the new project.  
-
-Then the Kubernetes cluster can be deployed. In a first step, required Google Cloud APIs are activated:
+Finally, the Kubernetes cluster can be deployed:
 ```
-gcloud services enable compute.googleapis.com cloudresourcemanager.googleapis.com container.googleapis.com
 gcloud beta container clusters create my-gke-cluster --zone "europe-west3-a"
 ```
 

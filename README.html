@@ -155,21 +155,23 @@ kubectl rollout history deployment dpl-demo-1 --revision=2
 <p>In the following section, a Kubernetes cluster is deployed in a public cloud. For this purpose, we use <a href="https://cloud.google.com/">Google Cloud</a> in this tutorial. For simplicity, we assume that a Google Cloud account already exists.<br>
 <strong>Costs are generated at the public cloud provider used in the following tutorial sections. It is, therefore, vital to limit the runtime of the clusters and prevent possible idle time to minimize costs.</strong></p>
 <p>First, obtain access to your Google Cloud account:</p>
-<pre><code><code><div>gcloud init --console-only
+<pre><code><code><div>gcloud auth login
 </div></code></code></pre>
 <p>The following command creates a new Google Cloud project, generating a random project name. Last, the newly created project is specified in the active configuration.</p>
 <pre><code><code><div>PROJECT_ID=&quot;gcp-$(($(date +%s%d)/1000000))$(($RANDOM%20))&quot; &amp;&amp; echo $PROJECT_ID
 gcloud projects create ${PROJECT_ID} --name &quot;${PROJECT_ID}&quot;
 gcloud config set project ${PROJECT_ID}
 </div></code></code></pre>
-<p>For simplicity let's define a defult compute region and a default compute zone:</p>
+<p>Before proceeding with the tutorial, make sure to <a href="https://cloud.google.com/billing/docs/how-to/modify-project#enable_billing_for_a_new_project">enable billing</a> on the new project.</p>
+<p>Then some required Google Cloud APIs have to be activated:</p>
+<pre><code><code><div>gcloud services enable compute.googleapis.com container.googleapis.com
+</div></code></code></pre>
+<p>For simplicity let's define a default compute region and a default compute zone:</p>
 <pre><code><code><div>gcloud config set compute/region europe-west3
 gcloud config set compute/zone europe-west3a
 </div></code></code></pre>
-<p>Before proceeding with the tutorial, make sure to <a href="https://cloud.google.com/billing/docs/how-to/modify-project#enable_billing_for_a_new_project">enable billing</a> on the new project.</p>
-<p>Then the Kubernetes cluster can be deployed. In a first step, required Google Cloud APIs are activated:</p>
-<pre><code><code><div>gcloud services enable compute.googleapis.com cloudresourcemanager.googleapis.com container.googleapis.com
-gcloud beta container clusters create my-gke-cluster --zone &quot;europe-west3-a&quot;
+<p>Finally, the Kubernetes cluster can be deployed:</p>
+<pre><code><code><div>gcloud beta container clusters create my-gke-cluster --zone &quot;europe-west3-a&quot;
 </div></code></code></pre>
 <p>To interact with the newly created Kubernetes Cluster, fetch its credentials. This commands updates the local <em>kubeconfig</em> file with the appropriate credentials and endpoint information:</p>
 <pre><code><code><div>gcloud container clusters get-credentials my-gke-cluster
