@@ -171,7 +171,7 @@ gcloud config set project ${PROJECT_ID}
 gcloud config set compute/zone europe-west3a
 </div></code></code></pre>
 <p>Finally, the Kubernetes cluster can be deployed:</p>
-<pre><code><code><div>gcloud beta container clusters create my-gke-cluster --zone &quot;europe-west3-a&quot;
+<pre><code><code><div>gcloud beta container clusters create my-gke-cluster --zone europe-west3-a
 </div></code></code></pre>
 <p>To interact with the newly created Kubernetes Cluster, fetch its credentials. This commands updates the local <em>kubeconfig</em> file with the appropriate credentials and endpoint information:</p>
 <pre><code><code><div>gcloud container clusters get-credentials my-gke-cluster
@@ -225,7 +225,7 @@ With the following command, you will create a Terraform plan. You must pass the 
 <pre><code><code><div>terraform apply -var project_id=${PROJECT_ID}
 </div></code></code></pre>
 <p>After creating the Kubernetes Cluster successfully, you can fetch its credentials:</p>
-<pre><code><code><div>gcloud container clusters get-credentials my-terraform-cluster
+<pre><code><code><div>gcloud container clusters get-credentials my-terraform-cluster --region europe-west3
 </div></code></code></pre>
 <p>Now the demo application can be deployed on the newly created cluster:</p>
 <pre><code><code><div>kubectl apply -f 1_5_cloud_deployment/deployment.yml

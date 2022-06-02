@@ -171,7 +171,7 @@ gcloud config set compute/zone europe-west3a
 
 Finally, the Kubernetes cluster can be deployed:
 ```
-gcloud beta container clusters create my-gke-cluster --zone "europe-west3-a"
+gcloud beta container clusters create my-gke-cluster --zone europe-west3-a
 ```
 
 To interact with the newly created Kubernetes Cluster, fetch its credentials. This commands updates the local *kubeconfig* file with the appropriate credentials and endpoint information:
@@ -248,7 +248,7 @@ terraform apply -var project_id=${PROJECT_ID}
 
 After creating the Kubernetes Cluster successfully, you can fetch its credentials:
 ```
-gcloud container clusters get-credentials my-terraform-cluster
+gcloud container clusters get-credentials my-terraform-cluster --region europe-west3
 ```
 
 Now the demo application can be deployed on the newly created cluster:
