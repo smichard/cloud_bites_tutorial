@@ -13,10 +13,11 @@ The tutorial provides a virtual machine (VM) to ensure a consistent development 
 We recommend [Virtualbox](https://www.virtualbox.org/) as the virtualization software for this tutorial.  
 This tutorial uses [Visual Studio Code](https://code.visualstudio.com/) as a code editor.  
 
-After installing the three components (Vagrant, VirtualBox, and Visual Studio Code), the GitHub repository can be cloned, and the VM can be started:
+After installing the three components (Vagrant, VirtualBox, and Visual Studio Code), the GitHub repository can be cloned, and the VM can be started. The first line ensures that that the software tracking tool git is still installed if it is not already present on the PC:
 ```
+winget install --id Git.Git -e --source winget
 git config --global core.autocrlf false
-git clone
+git clone https://github.com/smichard/cloud_bites_tutorial
 cd cloud_bites_tutorial
 vagrant up
 ```
